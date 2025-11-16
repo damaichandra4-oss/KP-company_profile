@@ -6,25 +6,25 @@ import { motion } from "framer-motion";
 const projects = [
   {
     title: "Pemetaan Topografi Tambang",
-    img: "/assets/tls/tlsbg.png",
+    img: "assets/tls/tlsbg.png",
     client: "PT Bukit Mineral",
     year: "2024",
   },
   {
     title: "Survey Lahan Pembangunan PLTU",
-    img: "/assets/uav/1.png",
+    img: "assets/uav/1.png",
     client: "PT Energi Nusantara",
     year: "2023",
   },
   {
     title: "GIS & Mapping Infrastruktur Kota",
-    img: "/assets/jalan/jalan1.png",
+    img: "assets/jalan/jalan1.png",
     client: "Pemkab Bandung",
     year: "2023",
   },
   {
     title: "Survey Jalur Telekomunikasi Fiber",
-    img: "/assets/perkebunan/1.jpg",
+    img: "assets/perkebunan/1.jpg",
     client: "PT Telkom Akses",
     year: "2022",
   },
