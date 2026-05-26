@@ -1,37 +1,11 @@
-// src/components/Portfolio.jsx
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-
-const projects = [
-  {
-    title: "Pemetaan Topografi Tambang",
-    img: "assets/tls/tlsbg.png",
-    client: "PT Bukit Mineral",
-    year: "2024",
-  },
-  {
-    title: "Survey Lahan Pembangunan PLTU",
-    img: "assets/uav/1.png",
-    client: "PT Energi Nusantara",
-    year: "2023",
-  },
-  {
-    title: "GIS & Mapping Infrastruktur Kota",
-    img: "assets/jalan/jalan1.png",
-    client: "Pemkab Bandung",
-    year: "2023",
-  },
-  {
-    title: "Survey Jalur Telekomunikasi Fiber",
-    img: "assets/perkebunan/1.jpg",
-    client: "PT Telkom Akses",
-    year: "2022",
-  },
-];
+import { useSiteData } from "../context/DataContext";
 
 const Portfolio = () => {
   const navigate = useNavigate();
+  const { portfolioPreview } = useSiteData();
 
   const handlePortfolioDetail = () => {
     navigate("/portfolio");
@@ -41,7 +15,6 @@ const Portfolio = () => {
     <div>
       <div className="min-h-screen bg-gray-900 py-24 px-6 md:px-20 text-white">
         <div className="max-w-6xl mx-auto">
-          {/* Header section */}
           <motion.div
             className="text-center mb-14"
             initial={{ opacity: 0, y: 20 }}
@@ -62,9 +35,8 @@ const Portfolio = () => {
             </p>
           </motion.div>
 
-          {/* Grid */}
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
-            {projects.map((item, index) => (
+            {portfolioPreview.map((item, index) => (
               <motion.div
                 key={index}
                 onClick={handlePortfolioDetail}
@@ -93,7 +65,6 @@ const Portfolio = () => {
           </div>
         </div>
 
-        {/* Tombol Learn More dengan animasi */}
         <motion.div
           className="flex items-center justify-center py-10"
           initial={{ opacity: 0, y: 40 }}

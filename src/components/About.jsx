@@ -1,8 +1,10 @@
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { useSiteData } from "../context/DataContext";
 
 const About = () => {
   const reduce = useReducedMotion();
+  const { about } = useSiteData();
 
   const titleVariant = {
     hidden: { x: -60, opacity: 0 },
@@ -37,7 +39,7 @@ const About = () => {
             animate={reduce ? false : "show"}
             variants={titleVariant}
           >
-            About
+            {about.label}
           </motion.h2>
 
           <motion.h3
@@ -47,7 +49,7 @@ const About = () => {
             variants={titleVariant}
             transition={{ delay: 0.06 }}
           >
-            Most trusted survey
+            {about.heading}
           </motion.h3>
 
           <motion.p
@@ -57,17 +59,10 @@ const About = () => {
             animate={reduce ? false : "show"}
             variants={paraVariant}
           >
-            Adinata Sentra Teknika (ASeT) didirikan pada tahun 1988 oleh para
-            ahli di bidang survei, pemetaan, kajian, dan Teknologi Informasi,
-            melayani sektor swasta maupun pemerintah. Dengan dukungan SDM
-            profesional dan peralatan lengkap, ASeT menyediakan layanan
-            keinsinyuran dan konsultansi teknis di berbagai sektor seperti
-            pertambangan, konstruksi, dan telekomunikasi, menjadikannya mitra
-            strategis bagi klien.
+            {about.description}
           </motion.p>
         </div>
 
-        {/* Gambar 2 kolom */}
         <div className="grid md:grid-cols-2 gap-4 md:gap-8">
           <motion.div
             className="rounded-xl overflow-hidden shadow-lg"
@@ -78,7 +73,7 @@ const About = () => {
             custom={0}
           >
             <img
-              src="/assets/about/survey1.jpg"
+              src={about.image1}
               alt="Survey team"
               className="w-full h-[200px] md:h-[300px] object-cover"
             />
@@ -93,7 +88,7 @@ const About = () => {
             custom={1}
           >
             <img
-              src="/assets/about/survey2.jpg"
+              src={about.image2}
               alt="Survey equipment"
               className="w-full h-[200px] md:h-[300px] object-cover"
             />

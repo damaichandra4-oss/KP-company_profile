@@ -1,5 +1,6 @@
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 import { Outlet, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -17,6 +18,7 @@ export default function Layout() {
 
   return (
     <>
+      <ScrollToTop />
       <Navbar />
       <Outlet />
       <Footer />

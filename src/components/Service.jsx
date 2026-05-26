@@ -8,89 +8,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-
-const SERVICES = [
-  // data sama seperti milik Anda
-  {
-    id: "tls3d",
-    title: "Survey TLS 3D (Laser Scanning)",
-    cover: "/assets/tls/tlsbg.png",
-    gallery: [
-      "/assets/tls/1.jpg",
-      "/assets/tls/2.jpg",
-      "/assets/tls/3.jpg",
-      "/assets/tls/hasil1.jpg",
-      "/assets/tls/hasil2.jpg",
-    ],
-    desc: "Survey menggunakan teknologi TLS (Terrestrial Laser Scanning) untuk akurasi tinggi dalam pemodelan 3D dan perhitungan volume.",
-    points: [
-      "Akurasi data hingga milimeter.",
-      "Pemodelan 3D (Point Cloud) yang detail.",
-      "Perhitungan Volume (Stockpile) yang presisi.",
-    ],
-  },
-  {
-    id: "uav",
-    title: "Survey Udara (Drone/UAV)",
-    cover: "/assets/uav/1.png",
-    gallery: ["/assets/uav/1.png", "/assets/uav/2.png", "/assets/uav/3.png"],
-    desc: "Pemotretan udara menggunakan UAV untuk pemetaan area luas dengan efisiensi tinggi, ideal untuk perencanaan tata ruang dan infrastruktur.",
-    points: [
-      "Pemetaan area luas secara cepat.",
-      "Ortophoto resolusi tinggi.",
-      "DSM/DTM untuk analisis elevasi.",
-    ],
-  },
-  {
-    id: "jalan",
-    title: "Survey Jalan & Infrastruktur",
-    cover: "/assets/jalan/jalan1.png",
-    gallery: [
-      "/assets/jalan/jalan2.png",
-      "/assets/jalan/jalan3.png",
-      "/assets/jalan/hasil1.png",
-      "/assets/jalan/hasil.png",
-    ],
-    desc: "Survey geometri dan elevasi jalan untuk kebutuhan desain, pembangunan, dan pemeliharaan infrastruktur.",
-    points: [
-      "Pengukuran Geometrik Jalan.",
-      "Perhitungan Cut and Fill.",
-      "As-built drawing infrastruktur.",
-    ],
-  },
-  {
-    id: "perkebunan",
-    title: "Survey Perkebunan",
-    cover: "/assets/perkebunan/1.jpg",
-    gallery: [
-      "/assets/perkebunan/1.jpg",
-      "/assets/perkebunan/2.jpg",
-      "/assets/perkebunan/3.jpg",
-    ],
-    desc: "Pengukuran lahan perkebunan untuk batas area, potensi hasil, dan efisiensi tata guna lahan.",
-    points: [
-      "Pembuatan Peta Batas Hak Guna Usaha (HGU).",
-      "Inventarisasi Tanaman.",
-      "Analisis Kesehatan Tanaman.",
-    ],
-  },
-  {
-    id: "tambang",
-    title: "Survey Pertambangan & Minyak",
-    cover: "/assets/tambang/1.jpg",
-    gallery: [
-      "/assets/tambang/1.jpg",
-      "/assets/tambang/2.jpg",
-      "/assets/tambang/3.jpg",
-    ],
-    desc: "Survey topografi tambang, kilang, dan jalur pipa minyak untuk mendukung perencanaan dan evaluasi produksi.",
-    points: [
-      "Pengawasan dan Kontrol Volume Batubara.",
-      "Monitoring Pergerakan Tanah.",
-      "Pemetaan Jalur Pipa.",
-    ],
-  },
-];
+import { useSiteData } from "../context/DataContext";
 
 function ServiceModal({ open, onClose, service }) {
   const [index, setIndex] = useState(0);
@@ -275,6 +193,7 @@ const Service = () => {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(null);
   const reduce = useReducedMotion();
+  const { services } = useSiteData();
 
   const openModal = (svc) => {
     setActive(svc);
@@ -287,7 +206,6 @@ const Service = () => {
     document.documentElement.style.overflow = "";
   };
 
-  // simple "from-bawah" variant
   const fromBottom = {
     hidden: { y: 30, opacity: 0 },
     show: (i = 0) => ({
@@ -297,7 +215,6 @@ const Service = () => {
     }),
   };
 
-  // container untuk stagger
   const container = {
     hidden: {},
     show: {
@@ -347,7 +264,6 @@ const Service = () => {
           Perkebunan, Minyak dan Gas.
         </motion.p>
 
-        {/* CTA "Lihat Semua Layanan" muncul dari bawah */}
         <motion.div
           className="mb-6"
           initial={reduce ? false : "hidden"}
@@ -365,7 +281,6 @@ const Service = () => {
           </Link>
         </motion.div>
 
-        {/* Grid: setiap kartu muncul dari bawah ke atas */}
         <motion.div
           className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"
           variants={container}
@@ -373,14 +288,13 @@ const Service = () => {
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
         >
-          {SERVICES.map((svc, idx) => (
+          {services.map((svc, idx) => (
             <motion.button
               key={svc.id}
               onClick={() => openModal(svc)}
-              className="text-left bg-gray-900 rounded-3xl overflow-hidden shadow-xl hover:scale-[1.02] transition-all duration-300 border border-white/5 
-                         group hover:ring-2 hover:ring-cyan-500 hover:bg-gray-800"
+              className="text-left bg-gray-900 rounded-3xl overflow-hidden shadow-xl hover:scale-[1.02] transition-all duration-300 border border-white/5 group hover:ring-2 hover:ring-cyan-500 hover:bg-gray-800"
               variants={fromBottom}
-              custom={idx + 4} // offset delay so titles, para, cta appear first
+              custom={idx + 4}
             >
               <div className="relative">
                 <img

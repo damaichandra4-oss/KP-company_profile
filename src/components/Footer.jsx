@@ -2,10 +2,12 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, Globe, MapPin } from "lucide-react";
 import { useLocation } from "react-router-dom";
+import { useSiteData } from "../context/DataContext";
 
 const Footer = () => {
   const location = useLocation();
   const isHomePage = location.pathname === "/";
+  const { footer } = useSiteData();
 
   const MotionFooter = isHomePage ? "footer" : motion.footer;
   const MotionDiv = isHomePage ? "div" : motion.div;
@@ -25,42 +27,37 @@ const Footer = () => {
         {/* Kolom 1 */}
         <div>
           <div className="flex items-center gap-2.5 mb-1">
-            <img src="/assets/logo/logo_adinata.png" alt="Logo" className="h-7 w-7 object-contain" />
+            <img src={footer.logoPath} alt="Logo" className="h-7 w-7 object-contain" />
             <h2 className="text-sky-500 font-bold text-[13px] md:text-[13px]">
-              PT. ADINATA SENTRA TEKNIKA
+              {footer.companyName}
             </h2>
           </div>
 
           <div className="space-y-2">
-            {/* Alamat kantor */}
             <div className="flex items-start gap-2">
               <MapPin size={12} className="text-sky-500 mt-0.5" />
               <p className="text-gray-400">
-                Perkantoran PFN Jalan Otista<br />
-                No. 125-127 Kel. Bidara Cina<br />
-                Kec. Jatinegara – Jakarta Timur
+                {footer.officeAddress.split("\n").map((line, i) => (
+                  <React.Fragment key={i}>
+                    {line}
+                    {i < footer.officeAddress.split("\n").length - 1 && <br />}
+                  </React.Fragment>
+                ))}
               </p>
             </div>
 
-            {/* Workshop + Telp */}
             <div className="flex items-start gap-2">
               <MapPin size={12} className="text-sky-500 mt-0.5" />
               <div className="flex flex-col text-gray-400">
-                <p>
-                  Workshop : Ruko Wisma Angsana Blok S No. 2 Pejaten Jakarta Selatan
-                </p>
-                <p>
-                  Telp : (021) 80452367, 081314511980, 081545331429
-                </p>
+                <p>Workshop : {footer.workshopAddress}</p>
+                <p>Telp : {footer.phones.join(", ")}</p>
                 <div className="flex items-start gap-2 -ml-5 mt-0.5">
-                <Mail size={12} className="text-sky-500" />
-                <a href="asetadinata1@gmail.com" className="hover:text-sky-400">
-                  asetadinata1@gmail.com
-                  
-                </a>
-                <a href="info@aset.co.id" className="hover:text-sky-400">
-                  info@aset.co.id
-                </a>
+                  <Mail size={12} className="text-sky-500" />
+                  {footer.emails.map((email, i) => (
+                    <a key={i} href={`mailto:${email}`} className="hover:text-sky-400">
+                      {email}
+                    </a>
+                  ))}
                 </div>
               </div>
             </div>
@@ -71,47 +68,21 @@ const Footer = () => {
         <div>
           <h3 className="text-white font-semibold mb-1.5 text-[13px]">Contact Person</h3>
           <ul className="space-y-1.5">
-            <li>
-              <span className="text-white font-medium">Arko Widodo</span>
-              <div className="flex items-center gap-1.5">
-                <Phone size={12} className="text-sky-500" />
-                <span>+62 813-5870-2787</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Mail size={12} className="text-sky-500" />
-                <a href="mailto:geotarkowidodo@gmail.com" className="hover:text-sky-400">
-                  geotarkowidodo@gmail.com
-                </a>
-              </div>
-            </li>
-
-            <li>
-              <span className="text-white font-medium">Handoyo</span>
-              <div className="flex items-center gap-1.5">
-                <Phone size={12} className="text-sky-500" />
-                <span>+62 815-4533-1429 / +62 812-8433-7891</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Mail size={12} className="text-sky-500" />
-                <a href="mailto:handoyo_yunda@yahoo.co.id" className="hover:text-sky-400">
-                  handoyo_yunda@yahoo.co.id
-                </a>
-              </div>
-            </li>
-
-            <li>
-              <span className="text-white font-medium">Dadan Hamdani</span>
-              <div className="flex items-center gap-1.5">
-                <Phone size={12} className="text-sky-500" />
-                <span>+81 3145 191980</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Mail size={12} className="text-sky-500" />
-                <a href="mailto:dadanh04@gmail.com" className="hover:text-sky-400">
-                  dadanh04@gmail.com
-                </a>
-              </div>
-            </li>
+            {footer.contactPersons.map((cp, i) => (
+              <li key={i}>
+                <span className="text-white font-medium">{cp.name}</span>
+                <div className="flex items-center gap-1.5">
+                  <Phone size={12} className="text-sky-500" />
+                  <span>{cp.phone}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Mail size={12} className="text-sky-500" />
+                  <a href={`mailto:${cp.email}`} className="hover:text-sky-400">
+                    {cp.email}
+                  </a>
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -119,38 +90,24 @@ const Footer = () => {
         <div>
           <h3 className="text-white font-semibold mb-1.5 text-[13px]">Partner</h3>
           <ul className="space-y-1.5">
-            <li>
-              <span className="text-sky-500 font-bold block text-[13px]">
-                PT. CAKRABUMI ENVIRODATA
-              </span>
-              <div className="flex items-center gap-1.5">
-                <Globe size={12} className="text-sky-500" />
-                <a
-                  href="https://cakrabumi.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="hover:text-sky-400"
-                >
-                  www.cakrabumi.com
-                </a>
-              </div>
-            </li>
-            <li>
-              <span className="text-sky-500 font-bold block text-[13px]">
-                PT. SANGGA BUANA NUSANTARA
-              </span>
-              <div className="flex items-center gap-1.5">
-                <Globe size={12} className="text-sky-500" />
-                <a
-                  href="https://sanggabuananusantara.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="hover:text-sky-400"
-                >
-                  www.sanggabuananusantara.com
-                </a>
-              </div>
-            </li>
+            {footer.partners.map((partner, i) => (
+              <li key={i}>
+                <span className="text-sky-500 font-bold block text-[13px]">
+                  {partner.name}
+                </span>
+                <div className="flex items-center gap-1.5">
+                  <Globe size={12} className="text-sky-500" />
+                  <a
+                    href={partner.website}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-sky-400"
+                  >
+                    {partner.website.replace("https://", "www.")}
+                  </a>
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
