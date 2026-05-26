@@ -260,8 +260,8 @@ const Service = () => {
           variants={fromBottom}
           custom={2}
         >
-          Kami menyediakan service seperti Survey Contruction, Pertambangan,
-          Perkebunan, Minyak dan Gas.
+          Melayani perakitan komputer (PC Gaming, Editing, Office) sesuai dengan spesifikasi
+          dan anggaran yang diinginkan pelanggan, serta memberikan konsultasi teknis yang mendalam.  
         </motion.p>
 
         <motion.div
