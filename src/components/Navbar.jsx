@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { HashLink } from "react-router-hash-link";
-import { useLocation, useNavigate, Link } from "react-router-dom"; // Import Link and useNavigate
+import { useLocation, useNavigate, Link } from "react-router-dom";
+import LogoMadinah from "../assets/madinah computers-jukebox-bg-removed.png";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -73,7 +74,7 @@ const Navbar = () => {
       <div className="container mx-auto px-6 md:px-14 py-4 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-3">
-          <img src="src/assets/madinah computers-jukebox-bg-removed.png" alt="Logo" className="h-10 w-10" />
+          <img src={LogoMadinah} alt="Logo" className="h-10 w-10" />
           <h1
             className={`text-lg md:text-2xl font-semibold whitespace-nowrap ${logoColor}`}
           >
