@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesan Masuk - Admin Madinah Computers</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; }
+        a { text-decoration: none; color: inherit; }
+        
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: #1a1a2e;
+            color: #fff;
+            padding: 20px 0;
+        }
+        .sidebar-header { padding: 0 20px 20px; border-bottom: 1px solid #16213e; }
+        .sidebar-header h2 { color: #e94560; font-size: 1.2rem; }
+        .sidebar-menu { list-style: none; margin-top: 20px; }
+        .sidebar-menu li a {
+            display: block;
+            padding: 12px 20px;
+            color: #fff;
+            transition: background 0.3s;
+        }
+        .sidebar-menu li a:hover,
+        .sidebar-menu li a.active { background: #e94560; }
+        
+        .main-content { margin-left: 250px; padding: 20px; }
+        .top-bar {
+            background: #fff;
+            padding: 15px 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .top-bar h1 { font-size: 1.5rem; color: #1a1a2e; }
+        
+        .card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .card h2 { color: #1a1a2e; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        
+        .message-card {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: box-shadow 0.3s;
+        }
+        .message-card:hover { box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+        .message-card.unread { border-left: 4px solid #e94560; background: #fff5f5; }
+        .message-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .message-header h3 { color: #1a1a2e; }
+        .message-meta { color: #999; font-size: 0.9rem; }
+        .message-body { color: #555; line-height: 1.6; margin-bottom: 15px; }
+        .message-contact { display: flex; gap: 20px; color: #666; font-size: 0.9rem; }
+        .message-contact span { display: flex; align-items: center; gap: 5px; }
+        
+        .btn {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            font-size: 0.85rem;
+        }
+        .btn-primary { background: #e94560; color: #fff; }
+        .btn-primary:hover { background: #c73e54; }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-new { background: #e94560; color: #fff; }
+        .badge-read { background: #28a745; color: #fff; }
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px;
+            color: #999;
+        }
+        .empty-state .icon { font-size: 3rem; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>💻 Admin Panel</h2>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/admin">📊 Dashboard</a></li>
+            <li><a href="/admin/products">📦 Produk</a></li>
+            <li><a href="/admin/services">🔧 Layanan</a></li>
+            <li><a href="/admin/messages" class="active">💬 Pesan</a></li>
+            <li><a href="/admin/about">ℹ️ Tentang</a></li>
+            <li><a href="/" target="_blank">🌐 Lihat Website</a></li>
+            <li><a href="/admin/logout">🚪 Logout</a></li>
+        </ul>
+    </div>
+    
+    <div class="main-content">
+        <div class="top-bar">
+            <h1>Pesan Masuk</h1>
+        </div>
+        
+        <div class="card">
+            <h2>Daftar Pesan dari Pelanggan</h2>
+            
+            <% if (messages.length === 0) { %>
+            <div class="empty-state">
+                <div class="icon">💬</div>
+                <h3>Belum Ada Pesan</h3>
+                <p>Pesan dari pelanggan akan muncul di sini</p>
+            </div>
+            <% } else { %>
+                <% messages.forEach(msg => { %>
+                <div class="message-card <%= !msg.is_read ? 'unread' : '' %>" id="msg-<%= msg.id %>">
+                    <div class="message-header">
+                        <div>
+                            <h3><%= msg.name %></h3>
+                            <div class="message-meta">
+                                <%= new Date(msg.created_at).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }) %>
+                            </div>
+                        </div>
+                        <span class="badge <%= msg.is_read ? 'badge-read' : 'badge-new' %>">
+                            <%= msg.is_read ? 'Dibaca' : 'Baru' %>
+                        </span>
+                    </div>
+                    
+                    <% if (msg.subject) { %>
+                    <p style="font-weight: 600; color: #1a1a2e; margin-bottom: 10px;">Subjek: <%= msg.subject %></p>
+                    <% } %>
+                    
+                    <div class="message-body"><%= msg.message %></div>
+                    
+                    <div class="message-contact">
+                        <% if (msg.email) { %>
+                        <span>📧 <%= msg.email %></span>
+                        <% } %>
+                        <% if (msg.phone) { %>
+                        <span>📞 <%= msg.phone %></span>
+                        <% } %>
+                    </div>
+                    
+                    <% if (!msg.is_read) { %>
+                    <button class="btn btn-primary" style="margin-top: 15px;" onclick="markAsRead(<%= msg.id %>)">Tandai Sudah Dibaca</button>
+                    <% } %>
+                </div>
+                <% }); %>
+            <% } %>
+        </div>
+    </div>
+    
+    <script>
+        async function markAsRead(id) {
+            try {
+                const res = await fetch(`/admin/messages/${id}/read`, { method: 'POST' });
+                const data = await res.json();
+                if (data.success) {
+                    const card = document.getElementById(`msg-${id}`);
+                    card.classList.remove('unread');
+                    const badge = card.querySelector('.badge');
+                    badge.className = 'badge badge-read';
+                    badge.textContent = 'Dibaca';
+                    const btn = card.querySelector('.btn');
+                    if (btn) btn.remove();
+                }
+            } catch (err) {
+                alert('Gagal memperbarui status pesan');
+            }
+        }
+    </script>
+</body>
+</html>

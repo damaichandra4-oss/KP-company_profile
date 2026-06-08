@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Produk - Admin Madinah Computers</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; }
+        a { text-decoration: none; color: inherit; }
+        
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: #1a1a2e;
+            color: #fff;
+            padding: 20px 0;
+        }
+        .sidebar-header { padding: 0 20px 20px; border-bottom: 1px solid #16213e; }
+        .sidebar-header h2 { color: #e94560; font-size: 1.2rem; }
+        .sidebar-menu { list-style: none; margin-top: 20px; }
+        .sidebar-menu li a {
+            display: block;
+            padding: 12px 20px;
+            color: #fff;
+            transition: background 0.3s;
+        }
+        .sidebar-menu li a:hover,
+        .sidebar-menu li a.active { background: #e94560; }
+        
+        .main-content { margin-left: 250px; padding: 20px; }
+        .top-bar {
+            background: #fff;
+            padding: 15px 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .top-bar h1 { font-size: 1.5rem; color: #1a1a2e; }
+        
+        .card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .card h2 { color: #1a1a2e; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            font-size: 0.9rem;
+        }
+        .btn-primary { background: #e94560; color: #fff; }
+        .btn-primary:hover { background: #c73e54; }
+        .btn-danger { background: #dc3545; color: #fff; }
+        .btn-danger:hover { background: #c82333; }
+        .btn-success { background: #28a745; color: #fff; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 500; }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .form-group textarea { height: 100px; resize: vertical; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        
+        table { width: 100%; border-collapse: collapse; }
+        table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        table th { background: #f9f9f9; font-weight: 600; color: #333; }
+        table tr:hover { background: #f5f5f5; }
+        .status-active { color: #28a745; font-weight: 500; }
+        .status-inactive { color: #dc3545; font-weight: 500; }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-header h3 { color: #1a1a2e; }
+        .close { font-size: 1.5rem; cursor: pointer; color: #999; }
+        .close:hover { color: #333; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>💻 Admin Panel</h2>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/admin">📊 Dashboard</a></li>
+            <li><a href="/admin/products" class="active">📦 Produk</a></li>
+            <li><a href="/admin/services">🔧 Layanan</a></li>
+            <li><a href="/admin/messages">💬 Pesan</a></li>
+            <li><a href="/admin/about">ℹ️ Tentang</a></li>
+            <li><a href="/" target="_blank">🌐 Lihat Website</a></li>
+            <li><a href="/admin/logout">🚪 Logout</a></li>
+        </ul>
+    </div>
+    
+    <div class="main-content">
+        <div class="top-bar">
+            <h1>Kelola Produk</h1>
+            <button class="btn btn-primary" onclick="document.getElementById('addModal').classList.add('active')">+ Tambah Produk</button>
+        </div>
+        
+        <div class="card">
+            <h2>Daftar Produk</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Kategori</th>
+                        <th>Harga</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% products.forEach((product, index) => { %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td><%= product.name %></td>
+                        <td><%= product.category %></td>
+                        <td>Rp <%= Number(product.price).toLocaleString('id-ID') %></td>
+                        <td><span class="<%= product.is_active ? 'status-active' : 'status-inactive' %>"><%= product.is_active ? 'Aktif' : 'Nonaktif' %></span></td>
+                        <td>
+                            <form method="POST" action="/admin/products/<%= product.id %>/delete" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus produk ini?')">
+                                <button type="submit" class="btn btn-danger">Hapus</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Add Product Modal -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Tambah Produk Baru</h3>
+                <span class="close" onclick="document.getElementById('addModal').classList.remove('active')">&times;</span>
+            </div>
+            <form method="POST" action="/admin/products" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Nama Produk</label>
+                    <input type="text" name="name" required placeholder="Masukkan nama produk">
+                </div>
+                <div class="form-group">
+                    <label>Deskripsi</label>
+                    <textarea name="description" placeholder="Masukkan deskripsi produk"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Harga (Rp)</label>
+                        <input type="number" name="price" required placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Kategori</label>
+                        <input type="text" name="category" placeholder="Laptop, Desktop, dll">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Gambar Produk</label>
+                    <input type="file" name="image" accept="image/*">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select name="is_active">
+                            <option value="on">Aktif</option>
+                            <option value="">Nonaktif</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Urutan</label>
+                        <input type="number" name="sort_order" value="0">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Simpan Produk</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
