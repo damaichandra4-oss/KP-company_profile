@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const mysql = require('mysql2/promise');
@@ -7,14 +8,14 @@ const path = require('path');
 const fs = require('fs');
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 // MySQL connection
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'wayaw_user',
-    password: 'Wayaw2026DB!',
-    database: 'madinah_computers',
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_NAME || 'madinah_computers',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
@@ -38,7 +39,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-    secret: 'madinah-computers-secret-2026',
+    secret: process.env.SESSION_SECRET || 'madinah-computers-secret-2026',
     resave: false,
     saveUninitialized: false
 }));
