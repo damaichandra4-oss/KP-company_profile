@@ -4,8 +4,7 @@ import {
   Type,
   Info,
   Briefcase,
-  Image,
-  FolderOpen,
+  Download,
   Layers,
   Phone,
 } from "lucide-react";
@@ -15,8 +14,7 @@ const links = [
   { to: "/admin/hero", label: "Hero Section", icon: Type },
   { to: "/admin/about", label: "About Section", icon: Info },
   { to: "/admin/services", label: "Services", icon: Briefcase },
-  { to: "/admin/portfolio-preview", label: "Portfolio Preview", icon: Image },
-  { to: "/admin/portfolio-detail", label: "Portfolio Detail", icon: FolderOpen },
+  { to: "/admin/software", label: "Software Download", icon: Download },
   { to: "/admin/service-detail", label: "Service Detail", icon: Layers },
   { to: "/admin/footer", label: "Footer / Contact", icon: Phone },
 ];
@@ -37,7 +35,7 @@ export default function AdminSidebar({ open, onClose }) {
       >
         <div className="p-4 border-b border-slate-700">
           <h2 className="text-lg font-bold text-sky-400">Admin Panel</h2>
-          <p className="text-xs text-slate-400">PT Adinata Sentra Teknika</p>
+          <p className="text-xs text-slate-400">PT Madinah Computers</p>
         </div>
         <nav className="p-3 space-y-1">
           {links.map((link) => (

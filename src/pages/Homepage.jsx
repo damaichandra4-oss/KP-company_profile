@@ -3,7 +3,8 @@ import React from "react";
 import Hero from "../components/Hero";
 import About from "../components/About";
 import Service from "../components/Service";
-import Portfolio from "../components/Portfolio"; 
+import SoftwareDownload from "../components/SoftwareDownload";
+
 const Homepage = () => {
   const backgroundImageUrl = "/bg.jpg";
 
@@ -13,7 +14,6 @@ const Homepage = () => {
       style={{ backgroundImage: `url(${backgroundImageUrl})` }}
     >
       <div className="min-h-screen bg-black/70">
-
         <section id="home" className="scroll-mr-15">
           <Hero />
         </section>
@@ -26,11 +26,9 @@ const Homepage = () => {
           <Service />
         </section>
 
-        {/* ⬇️ PORTFOLIO MUNCUL DI SINI */}
-        <section id="portfolio" className="scroll-mr-15">
-          <Portfolio />
+        <section id="download" className="scroll-mr-15">
+          <SoftwareDownload />
         </section>
-
       </div>
     </div>
   );
