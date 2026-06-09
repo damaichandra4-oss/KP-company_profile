@@ -2,7 +2,7 @@ export const STORAGE_PREFIX = "cp_";
 
 export const ADMIN_CREDENTIALS = {
   username: "admin",
-  password: "admin123",
+  password: "admin123456",
 };
 
 export const STORAGE_KEYS = {
