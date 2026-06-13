@@ -6,7 +6,7 @@ INSERT INTO admin (username, password_hash) VALUES
 ('admin', '$2a$10$LGm2AY//fVIebnD6I430c.dgvYXLY8ZlvUZQ3jJul7vHM4s6vwc76');
 
 -- About info
-INSERT INTO about (company_name, description, address, phone, email, whatsapp, vision, mission, logo_url) VALUES
+INSERT INTO about (company_name, description, address, phone, email, whatsapp, vision, mission, logo_url, services_badge, services_title, services_desc) VALUES
 ('Madinah Computers', 
 'Toko komputer terpercaya di Tangerang. Menyediakan berbagai kebutuhan komputer, laptop, printer, dan aksesoris dengan harga terjangkau dan kualitas terbaik. Melayani service, jual beli, dan rental perangkat komputer.',
 'Jl. Raya Tangerang No. 123, Tangerang, Banten 15111',
@@ -15,7 +15,10 @@ INSERT INTO about (company_name, description, address, phone, email, whatsapp, v
 '628xxxxxxxxxx',
 'Menjadi toko komputer terdepan dan terpercaya di wilayah Tangerang yang memberikan solusi teknologi terbaik untuk masyarakat.',
 'Menyediakan produk dan layanan berkualitas tinggi dengan harga kompetitif, didukung oleh tenaga ahli berpengalaman dan purna jual yang terjamin.',
-'/images/logo.png');
+'/images/logo.png',
+'LAYANAN UNGGULAN',
+'Layanan Service Kami',
+'Kami menangani berbagai kerusakan laptop, komputer, dan printer dengan teknisi profesional & berpengalaman');
 
 -- Products
 INSERT INTO products (name, description, price, image_url, category, sort_order) VALUES
@@ -24,10 +27,10 @@ INSERT INTO products (name, description, price, image_url, category, sort_order)
 ('Printer Epson L3210', 'Printer multifungsi (print, scan, copy) dengan sistem infus. Hemat tinta, hasil cetak berkualitas.', 2800000, '/images/printer.jpg', 'Printer', 3);
 
 -- Services
-INSERT INTO services (name, description, icon, sort_order) VALUES
-('Service & Repair', 'Layanan perbaikan komputer, laptop, dan printer. Teknisi berpengalaman, diagnosis cepat, harga transparan.', '🔧', 1),
-('Jual Beli', 'Jual beli komputer, laptop, dan aksesoris baru maupun bekas. Harga terbaik, garansi resmi.', '💻', 2),
-('Rental Komputer', 'Sewa komputer dan laptop untuk kebutuhan event, kantor, atau project. Tersedia harian hingga bulanan.', '🏢', 3);
+INSERT INTO services (name, description, points, icon, image_url, sort_order) VALUES
+('SERVICE LAPTOP', 'Berbagai Merk Seperti ASUS, ACER, LENOVO, TOSHIBA, HP, MSI, dll. Dengan Berbagai Macam Kerusakan Mulai dari Software hingga Hardware.', 'Lemot\nMati Total\nNo Display\nGanti IC / Chipset\nReball\nGanti LCD / LED\nGanti Keyboard\nGanti Baterai\nBluescreen\nKena Virus\nUpgrade Ram\nDll', '🔧', '/assets/madinah/banner-laptop.jpg', 1),
+('SERVICE KOMPUTER', 'Berbagai Tipe, PC Rakitan, PC All in One & PC branded Seperti ASUS, LENOVO, ACER, HP, dll. Dengan Berbagai Macam Kerusakan.', 'Lemot\nInstal ulang\nMati Total\nNo Display\nService VGA Card\nGanti IC / Chipset\nGanti Hardware\nUpgrade\nBluescreen\nKena Virus\nUpgrade Ram\nDll', '💻', '/assets/gaming/pc-red.jpg', 2),
+('SERVICE PRINTER', 'Berbagai Jenis Mulai dari Printer Inkjet, Printer Toner, dan Printer Laserjet. Dengan berbagai merk seperti CANON, EPSON, HP, dll.', 'Mati Total\nBlink\nTidak Bisa Print\nRusak Mekanik\nGanti INFUS\nPasang INFUS\nGanti Cartridge\nDll', '🖨️', '/assets/service/ssd-wd.jpg', 3);
 
 -- Sample testimonials
 INSERT INTO testimonials (name, role, message, rating, is_active) VALUES

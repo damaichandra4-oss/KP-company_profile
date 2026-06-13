@@ -28,7 +28,9 @@ CREATE TABLE IF NOT EXISTS services (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT,
+    points TEXT,
     icon VARCHAR(50),
+    image_url VARCHAR(255),
     is_active BOOLEAN DEFAULT TRUE,
     sort_order INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -46,6 +48,9 @@ CREATE TABLE IF NOT EXISTS about (
     vision TEXT,
     mission TEXT,
     logo_url VARCHAR(255),
+    services_badge VARCHAR(100) DEFAULT 'LAYANAN UNGGULAN',
+    services_title VARCHAR(100) DEFAULT 'Layanan Service Kami',
+    services_desc TEXT,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 

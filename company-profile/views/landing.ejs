@@ -204,6 +204,223 @@
         }
         .form-group textarea { height: 120px; resize: vertical; }
         
+        /* 6 Feature Cards */
+        .features-outer {
+            background: #fff;
+            padding: 50px 20px 60px;
+        }
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto 0;
+        }
+        @media (max-width: 1024px) {
+            .features-container { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 576px) {
+            .features-container { grid-template-columns: repeat(2, 1fr); }
+        }
+        .feature-card {
+            background: #fff;
+            padding: 20px 12px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border: 1px solid #f0f0f0;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 24px rgba(233,69,96,0.12);
+            border-color: #e94560;
+        }
+        .feature-card .icon { font-size: 2.2rem; margin-bottom: 10px; }
+        .feature-card h4 { font-size: 0.9rem; color: #1a1a2e; margin-bottom: 5px; font-weight: 700; }
+        .feature-card p { font-size: 0.72rem; color: #777; line-height: 1.4; }
+
+        /* Main Services Section (3 columns) */
+        .main-services-outer {
+            background: #f9f9f9;
+            padding: 70px 20px;
+        }
+        .services-columns {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        @media (max-width: 992px) {
+            .services-columns { grid-template-columns: 1fr; }
+        }
+        .service-column-card {
+            background: #fff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            border: 2px solid transparent;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        .service-column-card:hover {
+            transform: translateY(-6px);
+            border-color: #e94560;
+            box-shadow: 0 12px 32px rgba(233,69,96,0.12);
+        }
+        .service-column-img-wrap {
+            height: 210px;
+            overflow: hidden;
+            background: #e8e8e8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+        .service-column-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+        .service-column-card:hover .service-column-img { transform: scale(1.04); }
+        .service-column-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .service-col-title {
+            color: #e94560;
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .service-col-desc {
+            color: #555;
+            font-size: 0.88rem;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+        .service-points-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 7px 12px;
+            list-style: none;
+            padding-left: 0;
+            margin-top: auto;
+        }
+        .service-points-grid li {
+            font-size: 0.82rem;
+            color: #333;
+            display: flex;
+            align-items: flex-start;
+            gap: 5px;
+            line-height: 1.3;
+        }
+        .service-points-grid li::before {
+            content: "•";
+            color: #e94560;
+            font-size: 1.1rem;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-top: -1px;
+        }
+
+        /* Floating WhatsApp Chat Widget */
+        .whatsapp-float-widget {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            pointer-events: none;
+        }
+        .whatsapp-bubble {
+            background: #fff;
+            color: #333;
+            padding: 10px 14px;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+            font-size: 0.82rem;
+            font-weight: 500;
+            pointer-events: auto;
+            max-width: 190px;
+            line-height: 1.4;
+            animation: waBounce 2.5s ease-in-out infinite;
+            border: 1px solid #e8e8e8;
+            position: relative;
+        }
+        .whatsapp-bubble::after {
+            content: "";
+            position: absolute;
+            right: -7px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-width: 7px 0 7px 7px;
+            border-style: solid;
+            border-color: transparent transparent transparent #fff;
+        }
+        .whatsapp-btn {
+            background: #25d366;
+            color: #fff;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 18px rgba(37,211,102,0.4);
+            pointer-events: auto;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+        }
+        .whatsapp-btn:hover {
+            transform: scale(1.12);
+            box-shadow: 0 8px 24px rgba(37,211,102,0.5);
+        }
+        .whatsapp-btn svg { width: 28px; height: 28px; fill: currentColor; }
+
+        /* Side Vertical CHAT tab */
+        .side-chat-tab {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #25d366;
+            color: #fff;
+            padding: 16px 8px;
+            border-radius: 6px 0 0 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: -3px 0 10px rgba(0,0,0,0.12);
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: background 0.3s, padding-right 0.3s;
+        }
+        .side-chat-tab:hover { background: #1ab254; padding-right: 13px; }
+        .side-chat-tab svg { width: 14px; height: 14px; fill: currentColor; transform: rotate(90deg); }
+
+        @keyframes waBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        
         /* Footer */
         .footer {
             background: #1a1a2e;
@@ -298,21 +515,80 @@
         </div>
     </section>
     
-    <!-- Services Section -->
-    <section class="section" id="services">
-        <h2 class="section-title">Layanan Kami</h2>
-        <p class="section-subtitle">Solusi lengkap untuk kebutuhan komputer Anda</p>
-        
-        <div class="services-grid">
-            <% services.forEach(service => { %>
-            <div class="service-card">
-                <div class="service-icon"><%= service.icon || '🔧' %></div>
-                <h3><%= service.name %></h3>
-                <p><%= service.description %></p>
+    <!-- 6 Feature Cards Section -->
+    <div class="features-outer">
+        <div style="max-width:1200px;margin:0 auto 30px;">
+            <h2 class="section-title" style="margin-bottom:8px;">Mengapa Memilih Kami?</h2>
+            <p class="section-subtitle" style="margin-bottom:30px;">Keunggulan layanan yang kami tawarkan untuk kepuasan Anda</p>
+        </div>
+        <div class="features-container">
+            <div class="feature-card">
+                <div class="icon">🛡️</div>
+                <h4>Bergaransi</h4>
+                <p>Semua layanan bergaransi resmi</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">⚡</div>
+                <h4>Servis Cepat</h4>
+                <p>Penanganan same-day untuk kerusakan umum</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🔧</div>
+                <h4>Teknisi Ahli</h4>
+                <p>Dikerjakan oleh teknisi berpengalaman</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">💰</div>
+                <h4>Harga Terjangkau</h4>
+                <p>Harga transparan & kompetitif</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📱</div>
+                <h4>Konsultasi Gratis</h4>
+                <p>Diagnosa & konsultasi tanpa biaya</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🚚</div>
+                <h4>Servis Panggilan</h4>
+                <p>Teknisi siap datang ke lokasi Anda</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Services Section (3 Columns Dynamic) -->
+    <div class="main-services-outer" id="services">
+        <div style="max-width:1200px;margin:0 auto 40px;text-align:center;">
+            <% if (about.services_badge) { %>
+                <p style="color: #e94560; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;"><%= about.services_badge %></p>
+            <% } %>
+            <h2 class="section-title" style="margin-top: 0;"><%= about.services_title || 'Layanan Kami' %></h2>
+            <p class="section-subtitle" style="margin-bottom: 40px;"><%= about.services_desc || 'Solusi lengkap untuk semua kebutuhan perangkat Anda' %></p>
+        </div>
+        <div class="services-columns">
+            <% services.forEach(function(service) { %>
+            <div class="service-column-card">
+                <div class="service-column-img-wrap">
+                    <% if (service.image_url) { %>
+                        <img src="<%= service.image_url %>" alt="<%= service.name %>" class="service-column-img">
+                    <% } else { %>
+                        <span><%= service.icon || '🔧' %></span>
+                    <% } %>
+                </div>
+                <div class="service-column-content">
+                    <h3 class="service-col-title"><%= service.name %></h3>
+                    <p class="service-col-desc"><%= service.description %></p>
+                    <% if (service.points) { %>
+                    <ul class="service-points-grid">
+                        <% service.points.split('\n').filter(function(p){ return p.trim() !== ''; }).forEach(function(point) { %>
+                        <li><%= point.trim() %></li>
+                        <% }); %>
+                    </ul>
+                    <% } %>
+                </div>
             </div>
             <% }); %>
         </div>
-    </section>
+    </div>
     
     <!-- Testimonials Section -->
     <section class="section" id="testimonials" style="background: #f9f9f9; max-width: 100%; padding: 80px 20px;">
@@ -410,6 +686,20 @@
     </section>
     
     <%- include('partials/footer') %>
+
+    <!-- Floating WhatsApp Widget -->
+    <div class="whatsapp-float-widget">
+        <div class="whatsapp-bubble">Ada pertanyaan? Chat kami sekarang! 💬</div>
+        <a href="https://wa.me/<%= about.whatsapp || '6281111123456' %>?text=Halo%20Madinah%20Computers%2C%20saya%20ingin%20bertanya%20tentang%20layanan%20Anda." target="_blank" rel="noopener" class="whatsapp-btn" aria-label="Chat WhatsApp">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        </a>
+    </div>
+
+    <!-- Side Vertical Chat Tab -->
+    <a href="https://wa.me/<%= about.whatsapp || '6281111123456' %>?text=Halo%20Madinah%20Computers%2C%20saya%20ingin%20bertanya%20tentang%20layanan%20Anda." target="_blank" rel="noopener" class="side-chat-tab" aria-label="WhatsApp Chat">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        CHAT
+    </a>
     
     <script>
         document.getElementById('contactForm').addEventListener('submit', async (e) => {

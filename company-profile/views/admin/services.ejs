@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Layanan - Admin Madinah Computers</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; }
+        a { text-decoration: none; color: inherit; }
+        
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: #1a1a2e;
+            color: #fff;
+            padding: 20px 0;
+        }
+        .sidebar-header { padding: 0 20px 20px; border-bottom: 1px solid #16213e; }
+        .sidebar-header h2 { color: #e94560; font-size: 1.2rem; }
+        .sidebar-menu { list-style: none; margin-top: 20px; }
+        .sidebar-menu li a {
+            display: block;
+            padding: 12px 20px;
+            color: #fff;
+            transition: background 0.3s;
+        }
+        .sidebar-menu li a:hover,
+        .sidebar-menu li a.active { background: #e94560; }
+        
+        .main-content { margin-left: 250px; padding: 20px; }
+        .top-bar {
+            background: #fff;
+            padding: 15px 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .top-bar h1 { font-size: 1.5rem; color: #1a1a2e; }
+        
+        .card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .card h2 { color: #1a1a2e; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+        .btn-primary { background: #e94560; color: #fff; }
+        .btn-primary:hover { background: #c73e54; }
+        .btn-secondary { background: #6c757d; color: #fff; }
+        .btn-secondary:hover { background: #5a6268; }
+        .btn-danger { background: #dc3545; color: #fff; }
+        .btn-danger:hover { background: #c82333; }
+        .btn-warning { background: #ffc107; color: #212529; }
+        .btn-warning:hover { background: #e0a800; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 500; font-size: 0.9rem; }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        .form-group textarea { height: 100px; resize: vertical; }
+        .form-group small { display: block; color: #666; margin-top: 3px; font-size: 0.8rem; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        
+        table { width: 100%; border-collapse: collapse; }
+        table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; font-size: 0.9rem; }
+        table th { background: #f9f9f9; font-weight: 600; color: #333; }
+        table tr:hover { background: #f5f5f5; }
+        .status-active { color: #28a745; font-weight: 500; }
+        .status-inactive { color: #dc3545; font-weight: 500; }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            width: 95%;
+            max-width: 550px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-header h3 { color: #1a1a2e; }
+        .close { font-size: 1.5rem; cursor: pointer; color: #999; }
+        .close:hover { color: #333; }
+        
+        .service-img-preview {
+            width: 80px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>💻 Admin Panel</h2>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/admin">📊 Dashboard</a></li>
+            <li><a href="/admin/products">📦 Produk</a></li>
+            <li><a href="/admin/services" class="active">🔧 Layanan</a></li>
+            <li><a href="/admin/messages">💬 Pesan</a></li>
+            <li><a href="/" target="_blank">🌐 Lihat Website</a></li>
+            <li><a href="/admin/logout">🚪 Logout</a></li>
+        </ul>
+    </div>
+    
+    <div class="main-content">
+        <div class="top-bar">
+            <h1>Kelola Layanan</h1>
+            <button class="btn btn-primary" onclick="openAddModal()">+ Tambah Layanan</button>
+        </div>
+
+        <div class="card">
+            <h2>Pengaturan Header Section Layanan</h2>
+            <form method="POST" action="/admin/services/settings">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Sub-judul / Badge</label>
+                        <input type="text" name="services_badge" value="<%= about.services_badge || '' %>" placeholder="Contoh: LAYANAN UNGGULAN">
+                    </div>
+                    <div class="form-group">
+                        <label>Judul Utama Section</label>
+                        <input type="text" name="services_title" value="<%= about.services_title || '' %>" placeholder="Contoh: Layanan Service Kami">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Deskripsi Section</label>
+                    <textarea name="services_desc" placeholder="Masukkan deskripsi penjelas section..." style="height: 60px;"><%= about.services_desc || '' %></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Simpan Pengaturan Header</button>
+            </form>
+        </div>
+        
+        <div class="card">
+            <h2>Daftar Layanan</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">No</th>
+                        <th style="width: 80px;">Gambar</th>
+                        <th>Nama Layanan</th>
+                        <th style="width: 80px; text-align: center;">Ikon</th>
+                        <th>Jumlah Poin</th>
+                        <th style="width: 80px;">Urutan</th>
+                        <th style="width: 100px;">Status</th>
+                        <th style="width: 180px; text-align: center;">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% services.forEach((service, index) => { %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td>
+                            <% if (service.image_url) { %>
+                                <img src="<%= service.image_url %>" class="service-img-preview" alt="">
+                            <% } else { %>
+                                <div style="width: 80px; height: 50px; background: #eee; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #888; border-radius: 4px;">No Image</div>
+                            <% } %>
+                        </td>
+                        <td style="font-weight: 600;"><%= service.name %></td>
+                        <td style="text-align: center; font-size: 1.2rem;"><%= service.icon || '🔧' %></td>
+                        <td>
+                            <%= service.points ? service.points.split('\n').filter(p => p.trim() !== '').length : 0 %> poin
+                        </td>
+                        <td><%= service.sort_order %></td>
+                        <td>
+                            <span class="<%= service.is_active ? 'status-active' : 'status-inactive' %>">
+                                <%= service.is_active ? 'Aktif' : 'Nonaktif' %>
+                            </span>
+                        </td>
+                        <td style="text-align: center;">
+                            <button class="btn btn-warning btn-edit" 
+                                    style="margin-right: 5px;"
+                                    data-id="<%= service.id %>"
+                                    data-name="<%= service.name %>"
+                                    data-description="<%= service.description %>"
+                                    data-points="<%= service.points %>"
+                                    data-icon="<%= service.icon %>"
+                                    data-image_url="<%= service.image_url %>"
+                                    data-is_active="<%= service.is_active %>"
+                                    data-sort_order="<%= service.sort_order %>"
+                                    onclick="openEditModal(this)">
+                                Edit
+                            </button>
+                            <form method="POST" action="/admin/services/<%= service.id %>/delete" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus layanan ini?')">
+                                <button type="submit" class="btn btn-danger">Hapus</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }); %>
+                    <% if (services.length === 0) { %>
+                    <tr>
+                        <td colspan="8" style="text-align: center; color: #888; padding: 20px;">Belum ada layanan yang ditambahkan.</td>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Add Modal -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Tambah Layanan Baru</h3>
+                <span class="close" onclick="closeModal('addModal')">&times;</span>
+            </div>
+            <form method="POST" action="/admin/services" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Nama Layanan</label>
+                    <input type="text" name="name" required placeholder="Contoh: SERVICE LAPTOP">
+                </div>
+                <div class="form-group">
+                    <label>Deskripsi Layanan</label>
+                    <textarea name="description" placeholder="Masukkan ringkasan deskripsi layanan..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Poin Kerusakan / Keunggulan</label>
+                    <textarea name="points" placeholder="Lemot&#10;Mati Total&#10;No Display&#10;Ganti LCD / LED&#10;..." style="height: 120px;"></textarea>
+                    <small>Tulis satu poin per baris (tekan Enter untuk baris baru).</small>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Ikon (Emoji / Teks)</label>
+                        <input type="text" name="icon" placeholder="Contoh: 💻, 🔧, 🖨️">
+                    </div>
+                    <div class="form-group">
+                        <label>Urutan Tampil</label>
+                        <input type="number" name="sort_order" value="0">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Gambar Layanan</label>
+                        <input type="file" name="image" accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select name="is_active">
+                            <option value="on">Aktif</option>
+                            <option value="">Nonaktif</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Simpan Layanan</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Layanan</h3>
+                <span class="close" onclick="closeModal('editModal')">&times;</span>
+            </div>
+            <form id="editForm" method="POST" action="" enctype="multipart/form-data">
+                <input type="hidden" name="old_image" id="editOldImage">
+                <div class="form-group">
+                    <label>Nama Layanan</label>
+                    <input type="text" name="name" id="editName" required>
+                </div>
+                <div class="form-group">
+                    <label>Deskripsi Layanan</label>
+                    <textarea name="description" id="editDescription"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Poin Kerusakan / Keunggulan</label>
+                    <textarea name="points" id="editPoints" style="height: 120px;"></textarea>
+                    <small>Tulis satu poin per baris (tekan Enter untuk baris baru).</small>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Ikon (Emoji / Teks)</label>
+                        <input type="text" name="icon" id="editIcon">
+                    </div>
+                    <div class="form-group">
+                        <label>Urutan Tampil</label>
+                        <input type="number" name="sort_order" id="editSortOrder">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Gambar Baru (Kosongkan jika tetap)</label>
+                        <input type="file" name="image" accept="image/*">
+                        <div id="editImagePreviewContainer" style="margin-top: 8px;">
+                            <span style="font-size: 0.8rem; color: #666; display: block; margin-bottom: 4px;">Gambar saat ini:</span>
+                            <img src="" id="editImagePreview" class="service-img-preview" style="width: 120px; height: 75px;">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select name="is_active" id="editIsActive">
+                            <option value="on">Aktif</option>
+                            <option value="">Nonaktif</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Simpan Perubahan</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openAddModal() {
+            document.getElementById('addModal').classList.add('active');
+        }
+        
+        function openEditModal(button) {
+            const id = button.getAttribute('data-id');
+            const name = button.getAttribute('data-name');
+            const description = button.getAttribute('data-description');
+            const points = button.getAttribute('data-points');
+            const icon = button.getAttribute('data-icon');
+            const imageUrl = button.getAttribute('data-image_url');
+            const isActive = button.getAttribute('data-is_active') === '1' || button.getAttribute('data-is_active') === 'true';
+            const sortOrder = button.getAttribute('data-sort_order');
+            
+            const form = document.getElementById('editForm');
+            form.action = '/admin/services/' + id + '/edit';
+            
+            document.getElementById('editName').value = name || '';
+            document.getElementById('editDescription').value = description || '';
+            document.getElementById('editPoints').value = points || '';
+            document.getElementById('editIcon').value = icon || '';
+            document.getElementById('editSortOrder').value = sortOrder || '0';
+            document.getElementById('editOldImage').value = imageUrl || '';
+            
+            const previewContainer = document.getElementById('editImagePreviewContainer');
+            const previewImg = document.getElementById('editImagePreview');
+            if (imageUrl) {
+                previewContainer.style.display = 'block';
+                previewImg.src = imageUrl;
+            } else {
+                previewContainer.style.display = 'none';
+            }
+            
+            document.getElementById('editIsActive').value = isActive ? 'on' : '';
+            
+            document.getElementById('editModal').classList.add('active');
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+        
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>

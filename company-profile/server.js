@@ -192,6 +192,85 @@ app.post('/admin/products/:id/delete', requireAuth, async (req, res) => {
     }
 });
 
+// Admin services
+app.get('/admin/services', requireAuth, async (req, res) => {
+    try {
+        const [services] = await pool.query('SELECT * FROM services ORDER BY sort_order');
+        const [about] = await pool.query('SELECT * FROM about LIMIT 1');
+        res.render('admin/services', { 
+            admin: req.session.admin, 
+            services,
+            about: about[0] || {}
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+});
+
+// Admin save services section headers
+app.post('/admin/services/settings', requireAuth, async (req, res) => {
+    try {
+        const { services_badge, services_title, services_desc } = req.body;
+        await pool.query(
+            'UPDATE about SET services_badge = ?, services_title = ?, services_desc = ? LIMIT 1',
+            [services_badge, services_title, services_desc]
+        );
+        res.redirect('/admin/services');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+});
+
+// Admin add service
+app.post('/admin/services', requireAuth, upload.single('image'), async (req, res) => {
+    try {
+        const { name, description, points, icon, is_active, sort_order } = req.body;
+        const image_url = req.file ? '/uploads/' + req.file.filename : '';
+        
+        await pool.query(
+            'INSERT INTO services (name, description, points, icon, image_url, is_active, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            [name, description, points, icon, image_url, is_active === 'on' ? 1 : 0, sort_order || 0]
+        );
+        res.redirect('/admin/services');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+});
+
+// Admin edit service
+app.post('/admin/services/:id/edit', requireAuth, upload.single('image'), async (req, res) => {
+    try {
+        const { name, description, points, icon, is_active, sort_order } = req.body;
+        let image_url = req.body.old_image || '';
+        if (req.file) {
+            image_url = '/uploads/' + req.file.filename;
+        }
+        
+        await pool.query(
+            'UPDATE services SET name = ?, description = ?, points = ?, icon = ?, image_url = ?, is_active = ?, sort_order = ? WHERE id = ?',
+            [name, description, points, icon, image_url, is_active === 'on' ? 1 : 0, sort_order || 0, req.params.id]
+        );
+        res.redirect('/admin/services');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+});
+
+// Admin delete service
+app.post('/admin/services/:id/delete', requireAuth, async (req, res) => {
+    try {
+        await pool.query('DELETE FROM services WHERE id = ?', [req.params.id]);
+        res.redirect('/admin/services');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+});
+
 // Admin messages
 app.get('/admin/messages', requireAuth, async (req, res) => {
     try {

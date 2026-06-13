@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { STORAGE_KEYS } from "../utils/constants";
 import { getData, setData } from "../utils/storage";
-import { DEFAULT_BIDANG_DATA, DEFAULT_CORE_SERVICES } from "../../data/defaults";
+import { DEFAULT_BIDANG_DATA, DEFAULT_CORE_SERVICES, DEFAULT_ABOUT } from "../../data/defaults";
 import { useSiteData } from "../../context/DataContext";
 import CrudTable from "../components/CrudTable";
 import ConfirmDialog from "../components/ConfirmDialog";
@@ -11,6 +11,17 @@ import { Save, Plus, Trash2, X } from "lucide-react";
 
 export default function ServiceDetailEditor() {
   const { refresh } = useSiteData();
+
+  // About state (for section header settings)
+  const [about, setAbout] = useState(() =>
+    getData(STORAGE_KEYS.about, DEFAULT_ABOUT)
+  );
+  const [headerForm, setHeaderForm] = useState({
+    servicesBadge: about.servicesBadge || "LAYANAN UNGGULAN",
+    servicesTitle: about.servicesTitle || "Layanan Service Kami",
+    servicesDesc: about.servicesDesc || "Kami menangani berbagai kerusakan laptop, komputer, dan printer dengan teknisi profesional & berpengalaman",
+  });
+  const [saved, setSaved] = useState(false);
 
   // Bidang state
   const [bidang, setBidang] = useState(() =>
@@ -43,6 +54,21 @@ export default function ServiceDetailEditor() {
 
   const addBidangRow = () => saveBidang([...bidang, ["", ""]]);
   const removeBidangRow = (i) => saveBidang(bidang.filter((_, idx) => idx !== i));
+
+  const handleSaveHeader = (e) => {
+    e.preventDefault();
+    const updatedAbout = {
+      ...about,
+      servicesBadge: headerForm.servicesBadge,
+      servicesTitle: headerForm.servicesTitle,
+      servicesDesc: headerForm.servicesDesc,
+    };
+    setAbout(updatedAbout);
+    setData(STORAGE_KEYS.about, updatedAbout);
+    refresh();
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  };
 
   // Core services handlers
   const saveCore = (newItems) => {
@@ -85,33 +111,105 @@ export default function ServiceDetailEditor() {
   };
 
   const coreColumns = [
-    { key: "title", label: "Judul" },
-    { key: "id", label: "ID" },
-    { key: "iconName", label: "Icon" },
+    {
+      key: "name",
+      label: "Nama Layanan",
+      render: (val, row) => val || row.title || "-",
+    },
+    {
+      key: "icon",
+      label: "Ikon",
+      render: (val, row) => val || "-",
+    },
     {
       key: "imagePath",
       label: "Gambar",
-      render: (val) =>
-        val ? (
-          <img src={val} alt="" className="w-16 h-10 object-cover rounded" />
+      render: (val, row) => {
+        const src = val || row.cover || "";
+        return src ? (
+          <img src={src} alt="" className="w-16 h-10 object-cover rounded" />
         ) : (
           "-"
-        ),
-    },
-    {
-      key: "gallery",
-      label: "Foto",
-      render: (val) => (val ? `${val.length} foto` : "0 foto"),
+        );
+      },
     },
     {
       key: "points",
       label: "Poin",
-      render: (val) => (val ? `${val.length} poin` : "-"),
+      render: (val) =>
+        Array.isArray(val)
+          ? `${val.length} poin`
+          : typeof val === "string"
+          ? `${val.split("\n").filter(Boolean).length} poin`
+          : "-",
     },
   ];
 
+
   return (
     <div className="space-y-8">
+      {/* Service Section Header Settings */}
+      <div className="bg-white rounded-xl shadow-sm border p-6">
+        <h2 className="text-xl font-bold text-gray-800 mb-4">
+          Pengaturan Header Section Layanan
+        </h2>
+        <form onSubmit={handleSaveHeader} className="space-y-4 max-w-2xl">
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Sub-judul / Badge
+              </label>
+              <input
+                type="text"
+                value={headerForm.servicesBadge}
+                onChange={(e) =>
+                  setHeaderForm((prev) => ({ ...prev, servicesBadge: e.target.value }))
+                }
+                className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Judul Utama Section
+              </label>
+              <input
+                type="text"
+                value={headerForm.servicesTitle}
+                onChange={(e) =>
+                  setHeaderForm((prev) => ({ ...prev, servicesTitle: e.target.value }))
+                }
+                className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none"
+              />
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Deskripsi Section
+            </label>
+            <textarea
+              value={headerForm.servicesDesc}
+              onChange={(e) =>
+                setHeaderForm((prev) => ({ ...prev, servicesDesc: e.target.value }))
+              }
+              rows={3}
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none"
+            />
+          </div>
+          <div className="flex items-center gap-3">
+            <button
+              type="submit"
+              className="flex items-center gap-2 bg-sky-600 text-white px-5 py-2 rounded-lg hover:bg-sky-700 text-sm font-medium"
+            >
+              <Save size={16} />
+              Simpan Header
+            </button>
+            {saved && (
+              <span className="text-green-600 text-sm font-medium">Tersimpan!</span>
+            )}
+          </div>
+        </form>
+      </div>
+
       {/* Bidang Section */}
       <div>
         <div className="flex items-center justify-between mb-4">
@@ -211,18 +309,38 @@ export default function ServiceDetailEditor() {
 function CoreServiceForm({ initialData, isEdit, onSubmit, onCancel }) {
   const [form, setForm] = useState({
     id: initialData.id || "",
-    title: initialData.title || "",
+    name: initialData.name || initialData.title || "",
+    title: initialData.title || initialData.name || "",
+    icon: initialData.icon || "",
     iconName: initialData.iconName || "Layers",
-    desc: initialData.desc || "",
-    points: initialData.points || [],
-    imagePath: initialData.imagePath || "",
+    description: initialData.description || initialData.desc || "",
+    desc: initialData.desc || initialData.description || "",
+    points: Array.isArray(initialData.points)
+      ? initialData.points
+      : typeof initialData.points === "string"
+      ? initialData.points.split("\n").map((p) => p.trim()).filter(Boolean)
+      : [],
+    imagePath: initialData.imagePath || initialData.cover || "",
+    cover: initialData.cover || initialData.imagePath || "",
     gallery: initialData.gallery || [],
   });
 
-  const set = (name, value) => setForm((prev) => ({ ...prev, [name]: value }));
+  const set = (name, value) =>
+    setForm((prev) => {
+      const updated = { ...prev, [name]: value };
+      // Keep dual fields in sync
+      if (name === "name") updated.title = value;
+      if (name === "title") updated.name = value;
+      if (name === "description") updated.desc = value;
+      if (name === "desc") updated.description = value;
+      if (name === "imagePath") updated.cover = value;
+      if (name === "cover") updated.imagePath = value;
+      return updated;
+    });
 
   const addPoint = () => set("points", [...form.points, ""]);
-  const removePoint = (i) => set("points", form.points.filter((_, idx) => idx !== i));
+  const removePoint = (i) =>
+    set("points", form.points.filter((_, idx) => idx !== i));
   const updatePoint = (i, val) =>
     set("points", form.points.map((v, idx) => (idx === i ? val : v)));
 
@@ -236,7 +354,7 @@ function CoreServiceForm({ initialData, isEdit, onSubmit, onCancel }) {
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl my-8">
         <div className="flex items-center justify-between px-6 py-4 border-b">
           <h3 className="text-lg font-bold text-gray-800">
-            {isEdit ? "Edit Core Service" : "Tambah Core Service"}
+            {isEdit ? "Edit Layanan Utama" : "Tambah Layanan Utama"}
           </h3>
           <button onClick={onCancel} className="p-2 hover:bg-gray-100 rounded-full">
             <X size={20} />
@@ -244,6 +362,7 @@ function CoreServiceForm({ initialData, isEdit, onSubmit, onCancel }) {
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
+          {/* ID */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               ID <span className="text-red-500">*</span>
@@ -253,65 +372,65 @@ function CoreServiceForm({ initialData, isEdit, onSubmit, onCancel }) {
               value={form.id}
               onChange={(e) => set("id", e.target.value)}
               required
+              placeholder="Contoh: service-laptop"
               className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none"
             />
           </div>
 
+          {/* Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Judul <span className="text-red-500">*</span>
+              Nama Layanan <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
-              value={form.title}
-              onChange={(e) => set("title", e.target.value)}
+              value={form.name}
+              onChange={(e) => set("name", e.target.value)}
               required
+              placeholder="Contoh: SERVICE LAPTOP"
               className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none"
             />
           </div>
 
+          {/* Icon Emoji */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Icon
+              Ikon (Emoji)
             </label>
-            <select
-              value={form.iconName}
-              onChange={(e) => set("iconName", e.target.value)}
+            <input
+              type="text"
+              value={form.icon}
+              onChange={(e) => set("icon", e.target.value)}
+              placeholder="Contoh: 💻 atau 🖥️ atau 🖨️"
               className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none"
-            >
-              <option value="Layers">Layers</option>
-              <option value="Factory">Factory</option>
-              <option value="MapPin">MapPin</option>
-            </select>
+            />
           </div>
 
+          {/* Description */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Deskripsi
             </label>
             <textarea
-              value={form.desc}
-              onChange={(e) => set("desc", e.target.value)}
+              value={form.description}
+              onChange={(e) => set("description", e.target.value)}
               rows={3}
+              placeholder="Deskripsi singkat layanan ini..."
               className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none"
             />
           </div>
 
+          {/* Image Uploader */}
           <ImageUploader
             value={form.imagePath}
             onChange={(val) => set("imagePath", val)}
-            label="Gambar Utama"
+            label="Gambar Utama Layanan"
           />
 
-          <GalleryEditor
-            value={form.gallery}
-            onChange={(val) => set("gallery", val)}
-            maxImages={5}
-          />
-
+          {/* Points */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Poin
+              Daftar Poin / Jenis Kerusakan
             </label>
             <div className="space-y-2">
               {form.points.map((p, i) => (
@@ -364,3 +483,4 @@ function CoreServiceForm({ initialData, isEdit, onSubmit, onCancel }) {
     </div>
   );
 }
+
