@@ -24,6 +24,7 @@ const faqData = [
 const InquiryForm = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "", whatsapp: "" });
   const [status, setStatus] = useState("idle"); // idle | sending | success | error
+  const [previewUrl, setPreviewUrl] = useState(null);
   const [openFaq, setOpenFaq] = useState(null);
   const [errors, setErrors] = useState({});
 
@@ -62,7 +63,9 @@ const InquiryForm = () => {
       });
 
       if (res.ok) {
+        const data = await res.json();
         setStatus("success");
+        if (data.previewUrl) setPreviewUrl(data.previewUrl);
         setForm({ name: "", email: "", message: "", whatsapp: "" });
         setTimeout(() => setStatus("idle"), 5000);
       } else {
@@ -102,6 +105,11 @@ const InquiryForm = () => {
               <CheckCircle size={48} className="text-green-400 mx-auto mb-3" />
               <p className="text-green-300 text-lg font-semibold">Pesan Terkirim! ✅</p>
               <p className="text-gray-400 text-sm mt-1">Tim kami akan segera menghubungi Anda via WhatsApp.</p>
+              {previewUrl && (
+                <a href={previewUrl} target="_blank" rel="noopener noreferrer" className="text-sky-400 text-xs mt-3 inline-block hover:underline">
+                  📧 Lihat email terkirim (preview)
+                </a>
+              )}
             </motion.div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
