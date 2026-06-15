@@ -117,6 +117,15 @@ const Navbar = () => {
             </HashLink>
           </li>
           <li>
+            <HashLink
+              smooth
+              to="/#inquiry"
+              className={`transition ${linkHover}`}
+            >
+              Inquiry
+            </HashLink>
+          </li>
+          <li>
             <Link
               to="/#contact"
               onClick={handleContactClick}
@@ -161,6 +170,11 @@ const Navbar = () => {
           <li>
             <HashLink smooth to="/#download" onClick={() => setOpen(false)}>
               Download
+            </HashLink>
+          </li>
+          <li>
+            <HashLink smooth to="/#inquiry" onClick={() => setOpen(false)}>
+              Inquiry
             </HashLink>
           </li>
           <li>

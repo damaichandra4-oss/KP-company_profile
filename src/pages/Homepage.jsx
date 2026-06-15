@@ -6,6 +6,7 @@ import MainServices from "../components/MainServices";
 import About from "../components/About";
 import Service from "../components/Service";
 import SoftwareDownload from "../components/SoftwareDownload";
+import InquiryForm from "../components/InquiryForm";
 import WhatsAppWidget from "../components/WhatsAppWidget";
 
 const Homepage = () => {
@@ -36,6 +37,11 @@ const Homepage = () => {
         {/* Full Services Browser (existing component) */}
         <section id="service" className="scroll-mr-15">
           <Service />
+        </section>
+
+        {/* Inquiry Form & FAQ */}
+        <section id="inquiry" className="scroll-mr-15">
+          <InquiryForm />
         </section>
 
         {/* Software Download */}
