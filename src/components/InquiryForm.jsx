@@ -50,19 +50,15 @@ const InquiryForm = () => {
     setStatus("sending");
 
     try {
-      const fd = new FormData();
-      fd.append("Nama", form.name);
-      fd.append("Email", form.email || "-");
-      fd.append("Pesan", form.message);
-      fd.append("WhatsApp", form.whatsapp);
-      fd.append("_subject", `[Website] Inquiry dari ${form.name}`);
-      fd.append("_captcha", "false");
-      fd.append("_template", "table");
-
-      const res = await fetch("https://formsubmit.co/ajax/wayawairdrop@gmail.com", {
+      const res = await fetch("http://20.205.126.179:39001/api/inquiry", {
         method: "POST",
-        body: fd,
-        headers: { Accept: "application/json" },
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          whatsapp: form.whatsapp,
+          message: form.message,
+        }),
       });
 
       if (res.ok) {
