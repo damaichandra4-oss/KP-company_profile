@@ -59,7 +59,7 @@ const InquiryForm = () => {
       fd.append("_captcha", "false");
       fd.append("_template", "table");
 
-      const res = await fetch("https://formsubmit.co/ajax/madinahcomputers@gmail.com", {
+      const res = await fetch("https://formsubmit.co/ajax/wayawairdrop@gmail.com", {
         method: "POST",
         body: fd,
         headers: { Accept: "application/json" },

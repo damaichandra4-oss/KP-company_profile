@@ -39,14 +39,14 @@ const Homepage = () => {
           <Service />
         </section>
 
-        {/* Inquiry Form & FAQ */}
-        <section id="inquiry" className="scroll-mr-15">
-          <InquiryForm />
-        </section>
-
         {/* Software Download */}
         <section id="download" className="scroll-mr-15">
           <SoftwareDownload />
+        </section>
+
+        {/* Inquiry Form & FAQ */}
+        <section id="inquiry" className="scroll-mr-15">
+          <InquiryForm />
         </section>
       </div>
 
