@@ -88,7 +88,7 @@ const Footer = () => {
 
         {/* Kolom 3 */}
         <div>
-          <h3 className="text-white font-semibold mb-1.5 text-[13px]">Partner</h3>
+          <h3 className="text-white font-semibold mb-1.5 text-[13px]"></h3>
           <ul className="space-y-1.5">
             {footer.partners.map((partner, i) => (
               <li key={i}>
@@ -120,7 +120,7 @@ const Footer = () => {
           transition: { delay: 0.15, duration: 0.6 },
         })}
       >
-        © {new Date().getFullYear()} PT. Adinata Sentra Teknika — All Rights Reserved.
+        © {new Date().getFullYear()} PT. Madinah Komputer DAS — All Rights Reserved.
       </MotionDiv>
     </MotionFooter>
   );

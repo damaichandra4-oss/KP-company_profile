@@ -24,7 +24,7 @@ export default function ServiceDetail() {
       <section className="max-w-6xl mx-auto px-4 md:px-6 mb-10">
         <h1 className="text-3xl md:text-4xl font-extrabold text-center text-gray-900 tracking-tight">Service dan Produk</h1>
         <p className="text-center text-gray-600 mt-2 text-xs md:text-sm">
-          Survei & Pemetaan • GIS • Pengolahan Data • Konsultansi Teknis & Konstruksi • Telekomunikasi
+          Rakit, Servis, Upgrade
         </p>
       </section>
 
@@ -33,8 +33,8 @@ export default function ServiceDetail() {
           <table className="min-w-[700px] w-full text-sm">
             <thead className="bg-sky-600/10 text-sky-800">
               <tr>
-                <th className="px-4 py-3 text-left font-bold w-1/4">Bidang</th>
-                <th className="px-4 py-3 text-left font-bold">Kegunaan</th>
+                <th className="px-4 py-3 text-left font-bold w-1/4">Layanan :</th>
+                <th className="px-4 py-3 text-left font-bold">Melayani :</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
