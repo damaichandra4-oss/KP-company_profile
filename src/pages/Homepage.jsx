@@ -10,7 +10,7 @@ import InquiryForm from "../components/InquiryForm";
 import WhatsAppWidget from "../components/WhatsAppWidget";
 
 const Homepage = () => {
-  const backgroundImageUrl = "/bg.jpg";
+  const backgroundImageUrl = "/bg.jpeg";
 
   return (
     <div
