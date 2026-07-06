@@ -15,4 +15,5 @@ export const STORAGE_KEYS = {
   coreServices: `${STORAGE_PREFIX}data_core_services`,
   footer: `${STORAGE_PREFIX}data_footer`,
   portfolioPreview: `${STORAGE_PREFIX}data_portfolio_preview`,
+  testimonials: `${STORAGE_PREFIX}data_testimonials`,
 };

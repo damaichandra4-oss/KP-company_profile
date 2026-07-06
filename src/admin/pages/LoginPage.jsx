@@ -29,7 +29,7 @@ export default function LoginPage() {
           </div>
           <h1 className="text-2xl font-bold text-gray-800">Admin Login</h1>
           <p className="text-sm text-gray-500 mt-1">
-            PT Adinata Sentra Teknika
+            PT Madinah Computers
           </p>
         </div>
 

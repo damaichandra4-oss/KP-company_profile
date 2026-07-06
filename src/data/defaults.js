@@ -312,3 +312,27 @@ export const DEFAULT_FOOTER = {
   ],
   partners: [],
 };
+
+export const DEFAULT_TESTIMONIALS = [
+  {
+    id: 1,
+    name: "Budi Santoso",
+    role: "Pelanggan Service Laptop",
+    message: "Pelayanan sangat memuaskan! Laptop saya yang sebelumnya mati total kini kembali normal. Teknisi sangat profesional dan komunikatif.",
+    rating: 5,
+  },
+  {
+    id: 2,
+    name: "Andi Wijaya",
+    role: "Pelanggan Rakit PC Gaming",
+    message: "Rakit PC di sini mantap, cable management rapi dan spesifikasi sesuai budget. Performa gaming jadi sangat lancar tanpa kendala.",
+    rating: 5,
+  },
+  {
+    id: 3,
+    name: "Siti Rahma",
+    role: "Pelanggan CCTV",
+    message: "Pemasangan CCTV untuk toko saya dilakukan dengan cepat dan rapi. Kualitas gambar sangat jernih dan bisa dipantau langsung dari HP.",
+    rating: 5,
+  }
+];

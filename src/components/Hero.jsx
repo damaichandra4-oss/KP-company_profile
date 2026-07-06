@@ -6,12 +6,26 @@ import { useSiteData } from "../context/DataContext";
 const Hero = () => {
   const { hero } = useSiteData();
 
+  const backgroundImage = hero.image || HeroBackground;
+  const mobileBackgroundImage = hero.imageMobile || backgroundImage;
+  const imageFitClass = hero.imageFit === 'contain' ? 'bg-contain bg-no-repeat' : 'bg-cover';
+
   return (
-    <section
-      className="relative bg-cover bg-center h-[70vh] md:h-[90vh] flex items-center"
-      style={{ backgroundImage: `url(${HeroBackground})` }}
-    >
-      <div className="absolute inset-0 bg-black/50"></div>
+    <>
+      <style>{`
+        .hero-responsive-bg {
+          background-image: url('${mobileBackgroundImage}');
+        }
+        @media (min-width: 768px) {
+          .hero-responsive-bg {
+            background-image: url('${backgroundImage}');
+          }
+        }
+      `}</style>
+      <section
+        className={`hero-responsive-bg relative ${imageFitClass} bg-center h-[70vh] md:h-[90vh] flex items-center bg-gray-900`}
+      >
+        <div className="absolute inset-0 bg-black/50"></div>
 
       <div className="relative z-10 text-white px-6 md:px-20 max-w-2xl">
         <motion.h1
@@ -47,7 +61,8 @@ const Hero = () => {
           Learn More
         </motion.a>
       </div>
-    </section>
+      </section>
+    </>
   );
 };
 

@@ -8,6 +8,7 @@ import Service from "../components/Service";
 import SoftwareDownload from "../components/SoftwareDownload";
 import InquiryForm from "../components/InquiryForm";
 import WhatsAppWidget from "../components/WhatsAppWidget";
+import Testimonial from "../components/Testimonial";
 
 const Homepage = () => {
   const backgroundImageUrl = "/bg.jpeg";
@@ -37,6 +38,11 @@ const Homepage = () => {
         {/* Full Services Browser (existing component) */}
         <section id="service" className="scroll-mr-15">
           <Service />
+        </section>
+
+        {/* Testimonials */}
+        <section id="testimonial" className="scroll-mr-15">
+          <Testimonial />
         </section>
 
         {/* Software Download */}

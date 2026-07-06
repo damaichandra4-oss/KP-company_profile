@@ -7,6 +7,7 @@ import {
   Download,
   Layers,
   Phone,
+  MessageSquareQuote,
 } from "lucide-react";
 
 const links = [
@@ -16,6 +17,7 @@ const links = [
   { to: "/admin/services", label: "Services", icon: Briefcase },
   { to: "/admin/software", label: "Software Download", icon: Download },
   { to: "/admin/service-detail", label: "Service Detail", icon: Layers },
+  { to: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
   { to: "/admin/footer", label: "Footer / Contact", icon: Phone },
 ];
 

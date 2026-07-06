@@ -14,6 +14,7 @@ import AboutEditor from "./admin/pages/AboutEditor";
 import ServicesEditor from "./admin/pages/ServicesEditor";
 import SoftwareEditor from "./admin/pages/SoftwareEditor";
 import ServiceDetailEditor from "./admin/pages/ServiceDetailEditor";
+import TestimonialsEditor from "./admin/pages/TestimonialsEditor";
 import FooterEditor from "./admin/pages/FooterEditor";
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
               <Route path="services" element={<ServicesEditor />} />
               <Route path="software" element={<SoftwareEditor />} />
               <Route path="service-detail" element={<ServiceDetailEditor />} />
+              <Route path="testimonials" element={<TestimonialsEditor />} />
               <Route path="footer" element={<FooterEditor />} />
             </Route>
           </Routes>

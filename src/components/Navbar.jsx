@@ -73,7 +73,7 @@ const Navbar = () => {
           <h1
             className={`text-lg md:text-2xl font-semibold whitespace-nowrap ${logoColor}`}
           >
-            PT MADINAH COMPUTERS
+          MADINAH COMPUTERS
           </h1>
         </div>
 

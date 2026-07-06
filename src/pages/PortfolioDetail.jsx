@@ -9,7 +9,7 @@ const CardPortfolioDetail = () => {
       <div className="max-w-7xl mx-auto px-6">
         <h2 className="text-3xl font-bold mb-2 text-center">Portofolio Proyek</h2>
         <p className="text-center text-slate-400 mb-8">
-          Berikut adalah beberapa proyek yang telah diselesaikan oleh PT Adinata Sentra Teknika
+          Berikut adalah beberapa proyek yang telah diselesaikan oleh PT Madinah Computers
           dalam berbagai bidang seperti survei, pemetaan, dan telematika di seluruh Indonesia.
         </p>
 
